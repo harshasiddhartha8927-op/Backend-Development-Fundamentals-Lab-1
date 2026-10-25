@@ -122,17 +122,17 @@ Displays the 404 Page Not Found response.
 
 ## Viva Questions
 
-### 1. What is the difference between `package.json` and `node_modules`?
+1. What is the difference between server-http.js and server.js in this lab?
 
-`package.json` stores project metadata, scripts, and dependency information. `node_modules` contains the installed packages required by the project.
+server-http.js uses Node’s built-in http module. It has no routing, so it sends the same “Hello” response for every URL. server.js uses Express, which lets you define separate routes such as /, /about and /time with app.get(). It also lets you handle unknown routes with a 404 using app.use().
 
-### 2. What does `app.listen()` do?
+2. Why is the 404 handler written with app.use() at the end of server.js, and what happens if you put it before the other routes?
 
-`app.listen()` starts the Express server and makes it listen for incoming requests on a specified port.
+Express checks routes in the order they are written. app.use() with no path matches every request, so it works as a catch-all for any URL not matched earlier. If you put it first, it would match every request, including /, /about and /time. All of them would then return 404 and the real routes would never run.
 
-### 3. What do `request` and `response` represent?
+3. What is the difference between response.send() and response.json(), and why does /about use json()?
 
-`request` contains information about the incoming HTTP request. `response` is used to send data and status codes back to the client.
+response.send() sends a response body such as text or HTML. response.json() converts a JavaScript object into JSON and sets the Content-Type header to application/json. /about returns structured data (name and section), so json() is the right choice. Clients like browsers and APIs can then read it as data and not as plain text.
 
 ## Problems Faced and Solutions
 
